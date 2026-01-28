@@ -1,12 +1,15 @@
-import React from "react";
-import { Outlet } from "react-router";
+import React, { use } from "react";
+import { Outlet, useNavigate } from "react-router";
 import Header from "../components/Header";
 import LatestNews from "../components/LatestNews";
 import Navbar from "../components/Navbar";
 import LeftAside from "../components/homelayout/LeftAside";
 import RighAside from "../components/homelayout/RighAside";
+import { AuthContext } from "../provider/AuthProvider";
 
 const HomeLayout = () => {
+  const {state}=useNavigate()
+  const {user}=use(AuthContext)
   return (
     <div>
       <header>
@@ -23,10 +26,10 @@ const HomeLayout = () => {
           <LeftAside></LeftAside>
         </aside>
         <section className="main col-span-6">
-          <Outlet></Outlet>
+          {state=='Loading'?<Loading/> :  <Outlet></Outlet>}
         </section>
         <aside className="col-span-3 top-2 sticky h-fit">
-          <RighAside></RighAside>
+          {user?"":<RighAside></RighAside>} 
         </aside>
       </main>
     </div>
